@@ -1,0 +1,195 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Where is earnst</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0, maximum-scale=1, minimum-scale=1">
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha256-/SIrNqv8h6QGKDuNoLGA4iret+kyesCkHGzVUUV0shc=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.8.0/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.8.0/jquery.modal.min.css" />
+</head>
+
+<body>
+
+    <script>
+        // Ugly hack to get the back button to "work"
+        history.pushState({}, "page 2", "/?yes=no");
+        window.onpopstate = function() {
+            var audio = new Audio('/horn.mp3');audio.play();
+            window.setTimeout(function() {
+            window.location = "/"
+          }, 1000)
+        }
+
+        window.showcrowd = true;
+        window.showlive = false;
+        $(function() {
+            $("body").on("keydown", function(e) {
+                if (e.ctrlKey == true && e.keyCode == 75) {
+                    window.showcrowd = !window.showcrowd;
+                    window.updatemap();
+                }
+                if (e.ctrlKey == true && e.keyCode == 76) {
+                    window.showlive = !window.showlive
+                    if(window.showlive) {
+
+                          var audio = new Audio('/dial.mp3');audio.play();
+                    }
+                    window.updatemap();
+
+                }
+
+
+            })
+        })
+
+    </script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCk0Y67wmGASeyzNGpGhQbMiDonydPInbE">
+
+
+    </script>
+
+    <script src="app.js"></script>
+
+    <div id="entry">
+        <center>
+            <h1 style="color: #46BCEC;font-family: Roboto;font-size: 3em;">
+
+                  <img class="start" src="ernst_moving.gif">
+                  WhereIs<img style="    vertical-align: middle;    margin-left: -20px;    margin-right: -25px;" src="ernst.png">
+                  .com
+<img class="start" src="ernst_moving.gif">
+                </h1>
+
+
+        </center>
+        <br>
+        <br>
+        <center>
+            <button id="be" onClick="var audio = new Audio('/horn.mp3');audio.play();;$('#entry').toggle(); $('#ernst').toggle();" class="flat fs">I am Ernst!</button>
+        </center>
+        <center>
+            <button id="bne" onClick="var audio = new Audio('/horn.mp3');audio.play();$('#entry').toggle();$('#noternst').toggle();window.initMap();window.run() " class="flat fs">I am not Ernst</button>
+        </center>
+        <div id="scrolls"></div>
+        <script>
+            var getr = function(a) {
+                return a[Math.floor(Math.random() * a.length)]
+            }
+            var adds = function() {
+                // Create a random text:
+                var ts = [
+                    ["Breaking news:", "Just in:", "Society reports:", "We have heard:", "From our correspondant:", "Believe it or not:", "BREAKING NEWS:", "Most recent:"],
+                    [ "Ernst spotted meeting with Korean delegation. Rumours suggest an extravagant lunch is on the cards.",
+                      "Ernst reported using the WiFi at Gardermoen. Unclear if it was only Facebook or something more important.",
+                      "Several sightings of Ernst have been reported at Sandvika Storsenter. Reports suggest he was in the Christmas spirit.",
+                      "Ernst spotted giving a presentation at a conference in Dubai to rapturous applause.",
+                      "Crowdsourced management tracking website has improved PEP results by staggering 20 percentage points.",
+                      "Real-time data analysis shows trips to the coffee machine in Z3 increase 50% when Ernst is out of the office.",
+                      "Ernst spotted having lunch in the staff canteen. Independent observers have been dispatched to verify this phenomenon.",
+                      "Sightings of Ernst have come from as far as Houston and Shanghai.",
+                      "Remember to send your tax-free requests to Ernst at least 2 hours before he reaches baggage reclaim.",
+                      "New hit website www.whereisERNST.com valued at 3.3 billion USD."]];
+                var str = ""
+                str += getr(ts[0]) + " "
+                str += getr(ts[1])
+                return str
+            }
+            var gen = function() {
+                var s = "";
+                for (var i = 0; i < 100; i++) {
+                    s += adds() + " - - - - - - - "
+                }
+                return s
+            }
+            for (var i = 0; i < 3; i++) {
+                var obj = $('<marquee behavior="scroll" direction="left" scrollamount="' + (3 + Math.floor(Math.random() * 4)) + '">')
+                obj.html(gen())
+                obj.appendTo($("#scrolls"))
+            }
+
+        </script>
+        <script>
+            $(function() {
+                for (var i = 0; i < 60; i++) {
+                    window.setTimeout(function() {
+                        var p = $(".imgrow")
+                        var obj = $('<img src="/ernst_hat.gif">')
+                        p.append(obj)
+                    }, 750 * Math.random())
+                }
+            })
+
+        </script>
+        <div class="imgrow">
+        </div>
+    </div>
+
+
+    <div id="ernst" style="width: 100vw; display:none">
+
+        <h1 style="color: #46BCEC;font-family: Roboto;font-size: 3em;">I am Ernst</h1>
+
+
+        <form id="upload" method="post" enctype="multipart/form-data" action="/ernst">
+            <p>Where am I:
+            </p>
+            <input type="text" name="where">
+            <p>Why am I here
+            </p>
+            <input type="text" name="why">
+            <p>When am I back in the office:
+            </p>
+            <input type="text" name="when">
+            <p>My captured moment:
+            </p>
+            <input type="text" name="ernst" value="true" style="display:none">
+            <input id="file" type="file" accept="image/*" name="img" capture="camera" />
+            <input style="margin-top:1em" type="submit" class="flat" value="Send update" />
+        </form>
+    </div>
+
+    <div id="noternst" style="width: 100vw; height: 100vh; display:none">
+
+        <div id="app"></div>
+
+        <div id="mapw">
+            <div style="position: absolute" id="map"></div>
+        </div>
+
+        <div class="btns">
+            <span>  <button id="report" onClick="window.report()" class="flat">Report sighting</button>  </span>
+            <span>  <button id="find" onClick="window.find()" class="flat">Find Ernst</button>         </span>
+        </div>
+
+        <!-- Modal HTML embedded directly into document -->
+        <div id="ex1" class="modal" style="display:none;">
+            <form id="upload" method="post" enctype="multipart/form-data" action="/ernst">
+                <p>Note:
+                </p>
+                <input type="text" name="why">
+                <p>Picture
+                </p>
+                <input type="text" name="ernst" value="false" style="display:none">
+                <input id="file" type="file" accept="image/*" name="img" capture="camera" />
+                <input style="margin-top:1em" type="submit" class="flat" value="Report" />
+            </form>
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+
+
+    </script>
+
+
+</body>
+
+</html>
